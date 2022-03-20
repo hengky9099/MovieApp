@@ -1,7 +1,8 @@
+import { NavigationContainer } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { Text, View } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
-import Home from './layouts/home/Home'
+import Routes from './routes/MainRoutes'
+
 
 
 
@@ -12,9 +13,9 @@ function App()  {
   }, [])
 
   return (
-    <View>
-      <Home />
-    </View>
+    <NavigationContainer>
+      <Routes />
+    </NavigationContainer>
     
   )
 }

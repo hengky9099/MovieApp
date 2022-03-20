@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import HorizontalScroll from '../../components/HorizontalScroll'
-import LatestUpload from '../../components/LatestUpload'
-import Recommended from '../../components/Recommended'
-import VerticalScroll from '../../components/VerticalScroll'
+import HorizontalScroll from '../../components/home/HorizontalScroll'
+import LatestUpload from '../../components/home/LatestUpload'
+import Recommended from '../../components/home/Recommended'
+import VerticalScroll from '../../components/home/VerticalScroll'
 
 const Home = () => {
   return (
