@@ -1,16 +1,14 @@
-import { StyleSheet, TouchableOpacity, FlatList, Text } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import React from 'react'
 import FastImage from 'react-native-fast-image';
-import axios from 'axios'
-import {ACCESS_TOKEN, BaseUrl, ImageUrl} from '../../helpers/apiAccessToken';
-import getUpcomingMovie from '../../api/api'
+import { ImageUrl } from '../../helpers/apiAccessToken';
+import { moderateScale } from 'react-native-size-matters';
 
-const HorizontalScroll = () => {
- 
+const HorizontalScroll = ({data, navigation}) => {
     
     const HorizontalComponent = ({item, index}) => {
       return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('MovieDetail', {datas: item.id})} >
         <FastImage 
         style={styles.image} 
         source={{uri: `${ImageUrl}${item.poster_path}`, priority: FastImage.priority.fast}}
@@ -21,7 +19,7 @@ const HorizontalScroll = () => {
 
     return (
         <FlatList
-            data={getUpcomingMovie}
+            data={data}
             renderItem={ HorizontalComponent }
             keyExtractor={(item, index) => index}
             horizontal={true}
@@ -33,13 +31,10 @@ export default HorizontalScroll
 
 const styles = StyleSheet.create({
     image: {
-        width: 100,
-        height: 300,
-        marginHorizontal: 8,
-        borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30,
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        overflow: 'hidden',
+      width: moderateScale(140),
+      height: moderateScale(300),
+      marginHorizontal: moderateScale(8),
+      left: moderateScale(2),
+      overflow: 'hidden',
     }
 })

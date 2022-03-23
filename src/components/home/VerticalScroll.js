@@ -1,41 +1,38 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import FastImage from 'react-native-fast-image';
 import { FlatList } from 'react-native'
 import { moderateScale } from 'react-native-size-matters';
-import axios from 'axios'
-import {ACCESS_TOKEN, BaseUrl, ImageUrl} from '../../helpers/apiAccessToken';
-import nowPlayingMovieData from '../../api/api'
+import {ImageUrl} from '../../helpers/apiAccessToken';
 
-const VerticalScroll = () => {
+const VerticalScroll = ({ data, navigation }) => {
 
-    // component
     const VerticalComponent = ({ item, index }) => {
-      return (
-      <View style={styles.container}>
-        <FastImage 
-        style={styles.image} 
-        source={{
-            uri: `${ImageUrl}${item.poster_path}`,
-            priority: FastImage.priority.normal,
-        }}
-        resizeMode={FastImage.resizeMode.contain}
-        />
-          <View style={styles.textcontainer}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.subtitle}>{item.overview}</Text>
-              <TouchableOpacity  style={styles.button}>
-                  <Text>Show More</Text>
-              </TouchableOpacity>
-          </View>
-      </View>
-      )
-    };
+        return (
+        <View style={styles.Verticalcontainer}>
+          <FastImage 
+          style={styles.Verticalimage} 
+          source={{
+              uri: `${ImageUrl}${item.poster_path}`,
+              priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
+          />
+            <View style={styles.textcontainer}>
+                <Text style={styles.Verticaltitle}>{item.title}</Text>
+                <Text numberOfLines={4} style={styles.Verticalsubtitle}>{item.overview}</Text>
+                <TouchableOpacity  style={styles.Verticalbutton} onPress={() => navigation.navigate('MovieDetail', {datas: item.id})}>
+                    <Text style={styles.Verticalbuttontext}>Show More</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+        )
+      };
 
   return (
     <View>
         <FlatList
-        data={nowPlayingMovieData}
+        data={data}
         renderItem={VerticalComponent}
         keyExtractor={(item, index) => index}
         />
@@ -46,31 +43,44 @@ const VerticalScroll = () => {
 export default VerticalScroll
 
 const styles = StyleSheet.create({
-    container: {
+    Verticalcontainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: moderateScale(200),
-    },
-    image: {
+        marginBottom: moderateScale(14),
+        left: moderateScale(5)
+      },
+      Verticalimage: {
         width: moderateScale(120),
-        height: moderateScale(120),
+        height: moderateScale(140),
         marginBottom: moderateScale(5)
-    },
-    textcontainer: {
+      },
+      Verticaltextcontainer: {
         flexDirection: 'column',
-    },
-    title: {
-        fontStyle: 'italic'
-    },
-    subtitle: {
+      },
+      Verticaltitle: {
+        fontStyle: 'italic',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: moderateScale(16)
+      },
+      Verticalsubtitle: {
         width: moderateScale(200),
-    },
-    button: {
-        backgroundColor: 'gold',
+        color: 'white',
+        marginVertical: moderateScale(5)
+      },
+      Verticalbutton: {
+        backgroundColor: 'red',
         width: moderateScale(90),
         height: moderateScale(40),
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+        borderRadius: moderateScale(10),
+        marginTop: moderateScale(5)
+      },
+      Verticalbuttontext: {
+        color: 'white'
+      },
+
 })

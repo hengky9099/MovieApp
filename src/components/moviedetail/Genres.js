@@ -16,7 +16,7 @@ export default Genres
 
 const styles = StyleSheet.create({
     title: {
-        color: 'black',
+        color: 'white',
         fontWeight: 'bold',
         fontSize: moderateScale(16),
         marginTop: moderateScale(15),

@@ -1,17 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import FastImage from 'react-native-fast-image'
 import { moderateScale } from 'react-native-size-matters'
+import { ImageUrl } from '../../helpers/apiAccessToken'
 
-const MovieDetailImage = () => {
-  
-
-  
+const MovieDetailImage = ({data}) => {
     return (
     <View>
       <FastImage 
       style={styles.image} 
-      source={{uri: `https://cdn.dribbble.com/users/1731254/screenshots/15637966/media/8a042e3d526de06f63ce736b26674327.png?compress=1&resize=800x600&vertical=top`, priority: FastImage.priority.fast}}
+      source={{uri: `${ImageUrl}${data.backdrop_path}`, priority: FastImage.priority.fast}}
       resizeMode={FastImage.resizeMode.contain} />
     </View>
   )
@@ -22,6 +20,7 @@ export default MovieDetailImage
 const styles = StyleSheet.create({
     image: {
         height: moderateScale(300),
-        width: moderateScale(200),
+        width: moderateScale(360),
+        top: moderateScale(-50)
     }
 })

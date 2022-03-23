@@ -3,26 +3,27 @@ import React from 'react'
 import FastImage from 'react-native-fast-image'
 import { moderateScale } from 'react-native-size-matters'
 import Tags from '../Tags'
+import { ImageUrl } from '../../helpers/apiAccessToken'
 
-const MovieDetailCard = () => {
+
+const MovieDetailCard = ({ data }) => {
   
 return (
     <View style={styles.container}>
         <FastImage 
                 style={styles.image} 
                 source={{
-                    uri: `https://cdn.dribbble.com/users/7299396/screenshots/17563890/media/aabe316a76a5b8fcb32b25b0713957bc.png?compress=1&resize=800x600&vertical=top`,
+                    uri: `${ImageUrl}${data.poster_path}`,
                     priority: FastImage.priority.normal,
                 }}
                 resizeMode={FastImage.resizeMode.contain}
         />
-        <Text style={styles.title}>TITLE</Text>
-        <Text style={styles.releasedate}>Release Date: </Text>
-        <Text style={styles.rating}>Rating: </Text>
-        <Text style={styles.runtime}>Runtime: </Text>
-        <Text style={styles.status}>Status: </Text>
-        <Tags style={styles.tags} />
-
+        <Text style={styles.title}>{data.title}</Text>
+        <Text style={styles.releasedate}>Release Date: {data.release_date}</Text>
+        <Text style={styles.status}>Status: {data.status}</Text>
+        <Text style={styles.rating}>Rating: {data.vote_average}</Text>
+        <Text style={styles.runtime}>Runtime: {data.runtime} Minutes</Text>
+        <Text style={styles.tagline}>Tagline: {data.tagline}</Text>
     </View>
   )
 }
@@ -33,27 +34,30 @@ const styles = StyleSheet.create({
     container: {
         width: moderateScale(330),
         height: moderateScale(200),
-        backgroundColor: 'black',
+        backgroundColor: '#00003f',
+        elevation: 4,
         borderRadius: 10,
         marginLeft: moderateScale(10),
-        marginTop: moderateScale(-170)
+        marginTop: moderateScale(-190)
     },
     image: {
         width: moderateScale(100),
         height: moderateScale(240),
         marginLeft: moderateScale(10),
-        marginTop: moderateScale(20)
+        marginTop: moderateScale(-18)
     },
     title: {
-        fontSize: moderateScale(14),
         color: 'white',
-        marginTop: moderateScale(-240),
-        marginLeft: moderateScale(130)
+        marginTop: moderateScale(-200),
+        marginLeft: moderateScale(130),
+        fontSize: moderateScale(16),
+        fontWeight: 'bold',
+        fontStyle: 'italic'
     },
     releasedate: {
         fontSize: moderateScale(12),
         color: 'white',
-        marginTop: moderateScale(2),
+        marginTop: moderateScale(15),
         marginLeft: moderateScale(130)
     },    
     rating: {
@@ -74,8 +78,10 @@ const styles = StyleSheet.create({
         marginTop: moderateScale(2),
         marginLeft: moderateScale(130)
     },
-    tags: {
-        marginTop: moderateScale(30),
+    tagline: {
+        fontSize: moderateScale(12),
+        color: 'white',
+        marginTop: moderateScale(2),
         marginLeft: moderateScale(130)
     }
 })
