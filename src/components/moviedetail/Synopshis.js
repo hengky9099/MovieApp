@@ -4,7 +4,7 @@ import { moderateScale } from 'react-native-size-matters'
 
 const Synopshis = ({data}) => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Synopsis</Text>
       <Text style={styles.paragraph}>{data.overview}</Text>
     </View>
@@ -14,6 +14,9 @@ const Synopshis = ({data}) => {
 export default Synopshis
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: moderateScale(-40)
+    }, 
     title: {
         fontSize: moderateScale(16),
         marginTop: moderateScale(30),

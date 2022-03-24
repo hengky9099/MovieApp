@@ -14,7 +14,7 @@ const VerticalScroll = ({ data, navigation }) => {
           style={styles.Verticalimage} 
           source={{
               uri: `${ImageUrl}${item.poster_path}`,
-              priority: FastImage.priority.normal,
+              priority: FastImage.priority.fast,
           }}
           resizeMode={FastImage.resizeMode.contain}
           />

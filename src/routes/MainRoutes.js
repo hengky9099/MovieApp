@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 export default function Routes() {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false}} >
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false}} >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="MovieDetail" component={MovieDetail} />
       <Stack.Screen name="Login" component={Login} />

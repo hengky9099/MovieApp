@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { moderateScale } from 'react-native-size-matters'
-import ArtistCard from './ArtistCard'
 
 const Artist = () => {
   return (
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     color: 'white',
     fontWeight: 'bold',
-    marginTop: moderateScale(10),
+    marginTop: moderateScale(15),
     marginLeft: moderateScale(20),
   }  
 })

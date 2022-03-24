@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import FastImage from 'react-native-fast-image'
 import { moderateScale } from 'react-native-size-matters'
-import Tags from '../Tags'
 import { ImageUrl } from '../../helpers/apiAccessToken'
 
 
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         borderRadius: 10,
         marginLeft: moderateScale(10),
-        marginTop: moderateScale(-190)
+        marginTop: moderateScale(-210)
     },
     image: {
         width: moderateScale(100),

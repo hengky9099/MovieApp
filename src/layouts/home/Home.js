@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { moderateScale } from 'react-native-size-matters'
 import axios from 'axios'
@@ -10,6 +10,7 @@ import VerticalScroll from '../../components/home/VerticalScroll'
 const Home = ({ navigation }) => {
   const [getUpcomingMovie, setGetUpcomingMovie] = useState([]);
   const [nowPlayingMovieData, setNowPlayingMovieData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getUpcomingMovies();
@@ -19,28 +20,44 @@ const Home = ({ navigation }) => {
 // get data
 const getUpcomingMovies = async () => {
   try {
+    setLoading(true)
       const results = await axios.get(`${BaseUrl}/movie/upcoming`, {
       headers: {Authorization: `Bearer ${ACCESS_TOKEN}`},
       });
       setGetUpcomingMovie(results.data.results);
   } catch (error) {
       console.log(error);
+  } finally {
+    setLoading(false)
   }
   };
 
 const getNowPlayingMovie = async () => {
   try {
+    setLoading(true)
     const results = await axios.get(`${BaseUrl}/movie/now_playing`, {
       headers: {Authorization: `Bearer ${ACCESS_TOKEN}`},
     });
     setNowPlayingMovieData(results.data.results);
   } catch (error) {
     console.log(error);
+  } finally {
+    setLoading(false)
   }
 };
 
+if (loading) {
+  return (
+    <View
+      style={[styles.loadingContainer, styles.loadingHorizontal]}>
+      <ActivityIndicator size="large" color="red" />
+    </View>
+  );
+}
+
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor='black' />
       <Text style={styles.Recommended}>Recommended</Text>
       {/* Horizontal Scroll */}
       <View style={styles.HorizontalFlatList}>
@@ -94,5 +111,16 @@ const styles = StyleSheet.create({
     left: moderateScale(-10),
     top: moderateScale(-35),
     marginTop: moderateScale(25)
-},
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: 'black'
+
+  },
+  loadingHorizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
+  }
 })

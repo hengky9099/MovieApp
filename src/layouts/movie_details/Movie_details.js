@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, StatusBar } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import MovieDetailImage from '../../components/moviedetail/MovieDetailImage'
 import MovieDetailCard from '../../components/moviedetail/MovieDetailCard'
@@ -16,6 +16,7 @@ import FastImage from 'react-native-fast-image'
 const Movie_details = ({route, navigation}) => {
   const [data, setData] = useState([])
   const [cast, setCast] = useState([])
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getDataFromHome();
@@ -24,34 +25,65 @@ const Movie_details = ({route, navigation}) => {
 
   const getDataFromHome = async () => {
     try {
+      setLoading(true)
     const results = await axios.get(`${BaseUrl}/movie/${route.params.datas}`, {
       headers: {Authorization: `Bearer ${ACCESS_TOKEN}`},
     });
       setData(results.data)
     }catch (error) {
         console.log(error);
+  } finally {
+    setLoading(false)
   }
 }
 
 const getCastData = async () => {
   try {
+    setLoading(true)
   const results = await axios.get(`${BaseUrl}/movie/${route.params.datas}/credits`, {
     headers: {Authorization: `Bearer ${ACCESS_TOKEN}`},
   });
-  console.log(results.data)
   setCast(results.data)
   }catch (error) {
       console.log(error);
+  } finally {
+    setLoading(false)
+  }
 }
-
-}
-
-
+if (loading) {
+  return (
+    <View
+      style={[styles.loadingContainer, styles.loadingHorizontal]}>
+      <ActivityIndicator size="large" color="red" />
+    </View>
+  );
+} else {
   return (
     <ScrollView style={styles.container}>
+      <StatusBar backgroundColor='black' />
+      <TouchableOpacity style={styles.backicon} onPress={() => navigation.navigate('Home')} >
+        <Icon name='arrow-left-circle' size={30} color="red" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loveicon} >
+        <Icon name='heart' size={30} color="red" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.shareicon}>
+        <Icon name="share-2" size={30} color="red" />
+    </TouchableOpacity >
       <MovieDetailImage data={data} />
       <MovieDetailCard data={data} />
       <Genres />
+      <FlatList
+       style={styles.genresFlatList} 
+        data={data.genres}
+        renderItem = {({ item }) => (
+        <View style={styles.taglinecontainer}>
+            <Text style={styles.tagstext}>{item.name}</Text>
+        </View>
+        )}
+        keyExtractor={(item) => item.id}
+        horizontal={true}
+      />
       <Synopshis data={data} />
       <Artist />
       <SafeAreaView style={styles.containerCard}>
@@ -71,19 +103,10 @@ const getCastData = async () => {
         numColumns={3}
       />
       </SafeAreaView>
-      {/* <TouchableOpacity style={styles.backicon} onPress={() => navigation.navigate('Home')} >
-        <Icon name='arrow-left-circle' size={30} color="red" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.loveicon} >
-        <Icon name='heart' size={30} color="red" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.shareicon}>
-        <Icon name="share-2" size={30} color="red" />
-    </TouchableOpacity > */}
     </ScrollView>
   )
 }
-
+}
 export default Movie_details
 
 const styles = StyleSheet.create({
@@ -91,16 +114,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   backicon: {
-    top: moderateScale(-920),
-    left: moderateScale(10)
+    top: moderateScale(20),
+    left: moderateScale(10),
+    position: 'absolute',
+    zIndex: 1
+
   },
   loveicon: {
-    top: moderateScale(-950),
-    left: moderateScale(250)
+    top: moderateScale(15),
+    left: moderateScale(250),
+    position: 'absolute',
+    zIndex: 1
   },
   shareicon: {
-    top: moderateScale(-980),
-    left: moderateScale(300)
+    top: moderateScale(13),
+    left: moderateScale(300),
+    position: 'absolute',
+    zIndex: 1
   },
   containerArtistCard: {
       width: moderateScale(90),
@@ -125,5 +155,32 @@ const styles = StyleSheet.create({
     width: moderateScale(90),
     height: moderateScale(136),
     bottom: moderateScale(2)
-  }
+  },
+  taglinecontainer: {
+    width: moderateScale(70),
+    height: moderateScale(30),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+    borderRadius: moderateScale(10),
+    marginLeft: moderateScale(10),
+    top: moderateScale(10),
+    marginBottom: moderateScale(50),
+},
+tagstext: {
+  color: 'white',
+  fontSize: moderateScale(10)
+},
+  loadingContainer: {
+  flex: 1,
+  justifyContent: "center",
+  backgroundColor: 'black'
+
+},
+loadingHorizontal: {
+  flexDirection: "row",
+  justifyContent: "space-around",
+  padding: 10
+}
 })

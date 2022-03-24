@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput, View, Alert } from 'react-native'
+import { Text, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, TextInput, View, Alert, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import axios from 'axios'
 import { FakeAPIUrl } from '../../helpers/apiAccessToken'
@@ -8,6 +8,7 @@ import { Image } from 'react-native-elements'
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false);
 
     const data = {
         username: username, //"mor_2314"
@@ -16,6 +17,7 @@ const Login = ({ navigation }) => {
 
     const login = async () => {
         try {
+            setLoading(true);
             const res = await axios.post(`${FakeAPIUrl}/auth/login`, data , {
                 validateStatus: status => {
                     if (status < 201) {
@@ -39,11 +41,24 @@ const Login = ({ navigation }) => {
             })
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false)
         }
     }
 
+    if (loading) {
+        return (
+          <View
+            style={[styles.loadingContainer, styles.loadingHorizontal]}>
+            <ActivityIndicator size="large" color="red" />
+          </View>
+        );
+      }
+
     return (
     <View>
+
+        <StatusBar backgroundColor='#f2f2f2' />
 
         {/* Input */}
         <SafeAreaView>
@@ -120,5 +135,16 @@ const styles = StyleSheet.create({
         left: moderateScale(75),
         overflow: 'visible'
         // top: moderateScale(80)
+      },
+      loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: 'black'
+
+      },
+      loadingHorizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
       }
   })
